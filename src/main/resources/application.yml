@@ -1,0 +1,35 @@
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/pickMyItem
+    username: root
+    password: password
+
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate.show_sql: true
+      hibernate.format_sql: true
+      dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+  graphql:
+    graphiql:
+      enabled: true
+
+graphql:
+  servlet:
+    enabled: true
+    mapping: /graphql
+    corsEnabled: false
+    cors:
+      allowed-origins: http://localhost:8080
+      allowed-methods: GET, HEAD, POST, PATCH
+    exception-handlers-enabled: true
+    context-setting: PER_REQUEST_WITH_INSTRUMENTATION
+    async-mode-enabled: true
+  tools:
+    schema-location-pattern: "**/*.graphqls"
+    introspection-enabled: true
