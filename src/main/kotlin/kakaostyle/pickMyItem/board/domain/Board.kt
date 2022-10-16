@@ -13,15 +13,14 @@ import javax.persistence.OneToMany
 
 @Entity
 class Board(
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) var id: Long? = null,
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) var id: Long = 0L,
     @Column var boardName: String,
     @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.LAZY, orphanRemoval = false, mappedBy = "board")
     val postList: MutableList<Post> = mutableListOf(),
-    @Column var deleted: Boolean? = null,
 ) : Base(){
 
     fun addPost(post: Post) {
-        this.postList.add(post)
         post.board = this
+        this.postList.add(post)
     }
 }

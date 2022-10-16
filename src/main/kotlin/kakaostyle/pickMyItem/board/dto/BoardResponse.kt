@@ -1,24 +1,26 @@
 package kakaostyle.pickMyItem.board.dto
 
 import kakaostyle.pickMyItem.board.domain.Board
-import kakaostyle.pickMyItem.post.dto.PostDto
 
-data class BoardDto(
+data class BoardResponse(
+    val id: Long,
     val boardName: String,
-    val postList: List<PostDto>
+    val postIdList: List<Long>
 ) {
     companion object {
         fun from(
             board: Board
-        ): BoardDto {
-            return BoardDto(
+        ): BoardResponse {
+            val postIdList = board.postList.map { it.id }
+            return BoardResponse(
+                board.id,
                 boardName = board.boardName,
-                postList = board.postList.map { PostDto.getPostDto(it) }
+                postIdList = postIdList
             )
         }
     }
 }
 
-data class SaveBoardInput(
+data class CreateBoardInput(
     val boardName: String
 )

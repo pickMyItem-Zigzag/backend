@@ -1,19 +1,24 @@
 package kakaostyle.pickMyItem.board.resolver
 
-import kakaostyle.pickMyItem.board.dto.BoardDto
+import graphql.kickstart.tools.GraphQLQueryResolver
+import kakaostyle.pickMyItem.board.dto.BoardResponse
 import kakaostyle.pickMyItem.board.service.BoardService
-import org.springframework.graphql.data.method.annotation.QueryMapping
+import kakaostyle.pickMyItem.utils.BoardList
+import org.springframework.stereotype.Component
 
+@Component
 class BoardQueryResolver(
     private val boardService: BoardService,
-) {
-    @QueryMapping
-    fun getBoard(boardId: Long): BoardDto {
+) : GraphQLQueryResolver {
+    fun getBoard(boardId: Long): BoardResponse {
         return boardService.getBoard(boardId)
     }
 
-    @QueryMapping
-    fun getBoardList(): List<BoardDto> {
-        return boardService.getBoardList()
+    fun getBoardList(): BoardList {
+        val boardList = boardService.getBoardList()
+        return BoardList(
+            boardList.size,
+            boardList
+        )
     }
 }

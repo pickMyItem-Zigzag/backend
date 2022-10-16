@@ -1,16 +1,16 @@
 package kakaostyle.pickMyItem.post.resolver
 
-import kakaostyle.pickMyItem.post.dto.SavePostInput
+import graphql.kickstart.tools.GraphQLMutationResolver
+import kakaostyle.pickMyItem.post.dto.CreatePostInput
 import kakaostyle.pickMyItem.post.service.PostService
-import org.springframework.graphql.data.method.annotation.MutationMapping
+import org.springframework.stereotype.Component
 
+@Component
 class PostMutationResolver(
     private val postService: PostService
-) {
-
-    @MutationMapping
-    fun savePost(input: SavePostInput): Boolean {
-        postService.savePost(input)
+) : GraphQLMutationResolver {
+    fun createPost(input: CreatePostInput): Boolean {
+        postService.createPost(input)
         return true
     }
 }

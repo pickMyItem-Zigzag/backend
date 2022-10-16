@@ -1,14 +1,16 @@
 package kakaostyle.pickMyItem.board.resolver
 
-import kakaostyle.pickMyItem.board.dto.SaveBoardInput
+import graphql.kickstart.tools.GraphQLMutationResolver
+import kakaostyle.pickMyItem.board.dto.CreateBoardInput
 import kakaostyle.pickMyItem.board.service.BoardService
-import org.springframework.graphql.data.method.annotation.MutationMapping
+import org.springframework.stereotype.Controller
 
+@Controller
 class BoardMutationResolver(
     private val boardService: BoardService
-) {
-    @MutationMapping
-    fun saveBoard(input: SaveBoardInput) {
+) : GraphQLMutationResolver {
+    fun createBoard(input: CreateBoardInput): Boolean {
         boardService.saveBoard(input)
+        return true
     }
 }

@@ -1,8 +1,8 @@
 package kakaostyle.pickMyItem.board.service
 
 import kakaostyle.pickMyItem.board.domain.Board
-import kakaostyle.pickMyItem.board.dto.BoardDto
-import kakaostyle.pickMyItem.board.dto.SaveBoardInput
+import kakaostyle.pickMyItem.board.dto.BoardResponse
+import kakaostyle.pickMyItem.board.dto.CreateBoardInput
 import kakaostyle.pickMyItem.board.repository.BoardJpaRepository
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
@@ -15,27 +15,25 @@ class BoardService(
     private val logger = LoggerFactory.getLogger(this::class.simpleName)
 
     @Transactional(readOnly = true)
-    fun getBoard(boardId: Long): BoardDto {
-        val board = boardJpaRepository.findBoardById(boardId)
-        if (board == null) {
-            logger.info("해당하는 Borad가 없습니다.")
-            throw RuntimeException("해당하는 Borad가 없습니다.")
-        }
-        return BoardDto.from(board)
+    fun getBoard(boardId: Long): BoardResponse {
+        val board = boardJpaRepository
+            .findBoardById(boardId) ?: throw RuntimeException("해당하는 게시판이 없습니다.")
+        return BoardResponse.from(board)
     }
 
     @Transactional(readOnly = true)
-    fun getBoardList(): List<BoardDto> {
+    fun getBoardList(): List<BoardResponse> {
         return boardJpaRepository
             .findAll()
             .filter { it.deleted != null }
-            .map { BoardDto.from(it) }
+            .map { BoardResponse.from(it) }
     }
 
     @Transactional
-    fun saveBoard(input: SaveBoardInput) {
-        boardJpaRepository.save(
-            Board(boardName = input.boardName)
-        )
+    fun saveBoard(input: CreateBoardInput) {
+        if (boardJpaRepository.findBoardByBoardName(input.boardName) == null) {
+            boardJpaRepository.save(Board(boardName = input.boardName, postList = mutableListOf()))
+        } else throw RuntimeException("동일한 이름의 게시판이 존재합니다.")
+        logger.info("${input.boardName} 게시판이 생성되었습니다.")
     }
 }

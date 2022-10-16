@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository
 @Repository
 interface BoardJpaRepository : JpaRepository<Board, Long> {
     fun findBoardById(boardId: Long): Board?
+    fun findBoardByBoardName(boardName: String): Board?
 }
