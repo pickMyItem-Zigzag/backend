@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
 	id("org.springframework.boot") version "2.7.4"
 	id("io.spring.dependency-management") version "1.0.14.RELEASE"
-	id("com.expediagroup.graphql") version "4.0.0-alpha.12"
+//	id("com.expediagroup.graphql") version "4.0.0-alpha.12"
 	kotlin("plugin.jpa") version "1.6.21"
 	kotlin("jvm") version "1.6.21"
 	kotlin("plugin.spring") version "1.6.21"
@@ -30,18 +30,18 @@ repositories {
 }
 
 
-val graphqlIntrospectSchema by tasks.getting(com.expediagroup.graphql.plugin.gradle.tasks.GraphQLIntrospectSchemaTask::class) {
-	endpoint.set("http://localhost:8080/graphql")
-}
-
-val graphqlDownloadSDL by tasks.getting(com.expediagroup.graphql.plugin.gradle.tasks.GraphQLDownloadSDLTask::class) {
-	endpoint.set("http://localhost:8080/sdl")
-}
-
-val graphqlGenerateClient by tasks.getting(com.expediagroup.graphql.plugin.gradle.tasks.GraphQLGenerateClientTask::class) {
-	packageName.set("com.example.generated")
-	schemaFileName.set("${project.projectDir}/src/main/resources/graphql/schema.graphqls")
-}
+//val graphqlIntrospectSchema by tasks.getting(com.expediagroup.graphql.plugin.gradle.tasks.GraphQLIntrospectSchemaTask::class) {
+//	endpoint.set("http://localhost:8080/graphql")
+//}
+//
+//val graphqlDownloadSDL by tasks.getting(com.expediagroup.graphql.plugin.gradle.tasks.GraphQLDownloadSDLTask::class) {
+//	endpoint.set("http://localhost:8080/sdl")
+//}
+//
+//val graphqlGenerateClient by tasks.getting(com.expediagroup.graphql.plugin.gradle.tasks.GraphQLGenerateClientTask::class) {
+//	packageName.set("com.example.generated")
+//	schemaFileName.set("${project.projectDir}/src/main/resources/graphql/schema.graphqls")
+//}
 
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-graphql")
