@@ -1,10 +1,11 @@
-package kakaostyle.pickMyItem.pick.dto
+package kakaostyle.pickMyItem.itempick.dto
 
-import kakaostyle.pickMyItem.itempcik.domain.Pick
+import kakaostyle.pickMyItem.itempick.domain.Pick
 
 data class PickResponse (
-    val id: Long,
-    val productName: String,
+    val pickId: Long,
+    val itemId: Long,
+    val itemName: String,
     val pickCount: Int,
     val imageUrl: String?,
 ) {
@@ -12,9 +13,10 @@ data class PickResponse (
         fun from(pick: Pick): PickResponse {
             return PickResponse(
                 pick.id,
-                pick.productName,
+                pick.itemId,
+                pick.itemName,
                 pick.pickCount,
-                pick.imageUrl,
+                pick.itemImageUrl,
             )
         }
     }

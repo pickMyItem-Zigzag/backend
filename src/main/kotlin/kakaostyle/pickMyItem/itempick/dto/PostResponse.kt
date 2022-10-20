@@ -1,10 +1,10 @@
-package kakaostyle.pickMyItem.post.dto
+package kakaostyle.pickMyItem.itempick.dto
 
-import kakaostyle.pickMyItem.pick.dto.PickResponse
-import kakaostyle.pickMyItem.itempcik.domain.Post
+import kakaostyle.pickMyItem.itempick.domain.Post
 import kakaostyle.pickMyItem.wishitem.dto.ItemInfoInput
 
 data class PostResponse (
+    val postId: Long,
     val title: String,
     val content: String?,
     val pickList: List<PickResponse>
@@ -13,6 +13,7 @@ data class PostResponse (
         fun from(post: Post): PostResponse {
             val pickResponseList = post.pickList.map { PickResponse.from(it) }
             return PostResponse(
+                postId = post.id,
                 title = post.title,
                 content = post.content,
                 pickList = pickResponseList

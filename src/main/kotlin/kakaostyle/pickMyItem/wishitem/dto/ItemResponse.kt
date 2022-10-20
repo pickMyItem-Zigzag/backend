@@ -8,23 +8,24 @@ data class ItemList(
 )
 
 data class ItemInfoInput(
-    val productName: String,
-    val productImageUrl: String,
+    val itemId: Long,
+    val itemName: String,
+    val itemImageUrl: String,
     val originPrice: Int,
 )
 
 data class ItemInfoResponse(
-    val id: Long,
-    val productName: String,
-    val productImageUrl: String,
+    val itemId: Long,
+    val itemName: String,
+    val itemImageUrl: String,
     val originPrice: Int,
 ) {
     companion object {
         fun from(item: Item): ItemInfoResponse {
             return ItemInfoResponse(
                 item.id,
-                item.productName,
-                item.productImageUrl,
+                item.itemName,
+                item.itemImageUrl,
                 item.originPrice
             )
         }

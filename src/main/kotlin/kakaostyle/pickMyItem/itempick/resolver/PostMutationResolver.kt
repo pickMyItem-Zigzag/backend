@@ -1,8 +1,8 @@
-package kakaostyle.pickMyItem.itempcik.resolver
+package kakaostyle.pickMyItem.itempick.resolver
 
 import graphql.kickstart.tools.GraphQLMutationResolver
-import kakaostyle.pickMyItem.post.dto.CreatePostInput
-import kakaostyle.pickMyItem.itempcik.service.PostService
+import kakaostyle.pickMyItem.itempick.dto.CreatePostInput
+import kakaostyle.pickMyItem.itempick.service.PostService
 import org.springframework.stereotype.Component
 
 @Component

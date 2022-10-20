@@ -11,7 +11,7 @@ import javax.persistence.Id
 class Item(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) var id: Long = 0L,
     @Column var brandName: String? = null,
-    @Column var productName: String,
-    @Column var productImageUrl: String,
+    @Column var itemName: String,
+    @Column var itemImageUrl: String,
     @Column var originPrice: Int,
 ) : Base()

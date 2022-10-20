@@ -1,10 +1,9 @@
-package kakaostyle.pickMyItem.itempcik.resolver
+package kakaostyle.pickMyItem.itempick.resolver
 
 import graphql.kickstart.tools.GraphQLMutationResolver
-import kakaostyle.pickMyItem.board.dto.CreateBoardInput
-import kakaostyle.pickMyItem.itempcik.service.BoardService
+import kakaostyle.pickMyItem.itempick.dto.CreateBoardInput
+import kakaostyle.pickMyItem.itempick.service.BoardService
 import org.springframework.stereotype.Component
-import org.springframework.stereotype.Controller
 
 @Component
 class BoardMutationResolver(

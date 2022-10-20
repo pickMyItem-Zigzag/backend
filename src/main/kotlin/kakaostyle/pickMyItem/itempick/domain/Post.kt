@@ -1,4 +1,4 @@
-package kakaostyle.pickMyItem.itempcik.domain
+package kakaostyle.pickMyItem.itempick.domain
 
 import kakaostyle.pickMyItem.base.Base
 import javax.persistence.CascadeType
@@ -17,7 +17,7 @@ class Post(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) var id: Long = 0L,
     @Column(nullable = false) var title: String,
     @Column(length = 3000) var content: String?,
-    @OneToMany(cascade = [CascadeType.ALL], orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(cascade = [CascadeType.ALL], orphanRemoval = true, fetch = FetchType.EAGER)
     var pickList: MutableList<Pick> = mutableListOf(),
     @ManyToOne @JoinColumn(name = "post_id")
     var board: Board,

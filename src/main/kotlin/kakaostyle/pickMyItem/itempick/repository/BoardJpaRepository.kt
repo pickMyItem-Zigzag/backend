@@ -1,6 +1,6 @@
-package kakaostyle.pickMyItem.itempcik.repository
+package kakaostyle.pickMyItem.itempick.repository
 
-import kakaostyle.pickMyItem.itempcik.domain.Board
+import kakaostyle.pickMyItem.itempick.domain.Board
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 

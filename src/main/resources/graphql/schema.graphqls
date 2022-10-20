@@ -11,6 +11,8 @@ type Query {
     getItemWishList: ItemList!
     """ 상품 정보 리스트 조회 """
     getItemInfoListByIdList(itemIdList: [ID!]!): ItemList
+    """ 게시글 투표 결과 조회 """
+    getPickResult(postId: ID!): [PickResult!]!
 }
 
 type BoardResponse {
@@ -23,14 +25,16 @@ type BoardResponse {
 }
 
 type PostResponse {
+    postId: ID!
     title: String!
     content: String
     pickList: [PickResponse!]!
 }
 
 type PickResponse {
-    id: ID!
-    productName: String!
+    pickId: ID!
+    itemId: ID!
+    itemName: String!
     pickCount: Int!
     imageUrl: String!
 }
@@ -42,22 +46,31 @@ type BoardList {
     itemList: [BoardResponse!]!
 }
 
-type ItemInfoResponse {
-    """ 아이템 아이디 """
-    id: ID!
-    """ 상품 이름 """
-    productName: String!
-    """ 상품 이미지 URL """
-    productImageUrl: String!
-    """ 상품 가격 """
-    originPrice: Int!
-}
-
 type ItemList {
     """ 총 수 """
     totalCount: Int!
     """ 상품 응답 데이터 리스트 """
     itemList: [ItemInfoResponse!]!
+}
+
+type ItemInfoResponse {
+    """ 아이템 아이디 """
+    itemId: ID!
+    """ 상품 이름 """
+    itemName: String!
+    """ 상품 이미지 URL """
+    itemImageUrl: String!
+    """ 상품 가격 """
+    originPrice: Int!
+}
+
+type PickResult {
+    """ Pick 아이디 """
+    pickId: ID!
+    """ 상품 아이디 """
+    itemId: ID!
+    """ 득표 수 / 총 특표 수 """
+    pickResult: Float!
 }
 
 type Mutation {
@@ -66,9 +79,9 @@ type Mutation {
     """ pick 아이템으로 새로운 포스트 생성 """
     createPost(input: CreatePostInput): Boolean!
     """ 상품 pick """
-    pickItem(pickId: ID): Boolean!
+    pickItem(postId: ID!, itemId: ID): Boolean!
     """ 상품 pick 취소 """
-    unPickItem(pickId: ID): Boolean!
+    unPickItem(postId: ID!, itemId: ID): Boolean!
 }
 
 input CreateBoardInput {
@@ -88,10 +101,12 @@ input CreatePostInput {
 }
 
 input ItemInfoInput {
+    """ 상품 아이디 """
+    itemId: ID!
     """ 상품 이름 """
-    productName: String!
+    itemName: String!
     """ 상품 이미지 URL """
-    productImageUrl: String!
+    itemImageUrl: String!
     """ 상품 가격 """
     originPrice: Int!
 }

@@ -1,4 +1,4 @@
-package kakaostyle.pickMyItem.itempcik.domain
+package kakaostyle.pickMyItem.itempick.domain
 
 import kakaostyle.pickMyItem.base.Base
 import javax.persistence.Column
@@ -14,8 +14,9 @@ import kakaostyle.pickMyItem.wishitem.dto.ItemInfoInput
 class Pick(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) var id: Long = 0L,
     @Column var pickCount: Int,
-    @Column var productName: String,
-    @Column var imageUrl: String?,
+    @Column var itemName: String,
+    @Column var itemImageUrl: String?,
+    @Column(nullable = false) var itemId: Long = 0L,
     @ManyToOne @JoinColumn(name = "post_id")
     var post: Post? = null,
 ) : Base() {
@@ -24,8 +25,9 @@ class Pick(
         fun from(itemInfoInput: ItemInfoInput): Pick {
             return Pick(
                 pickCount = 0,
-                productName = itemInfoInput.productName,
-                imageUrl = itemInfoInput.productImageUrl
+                itemId = itemInfoInput.itemId,
+                itemName = itemInfoInput.itemName,
+                itemImageUrl = itemInfoInput.itemImageUrl
             )
         }
     }

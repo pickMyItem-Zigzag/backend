@@ -1,11 +1,10 @@
-package kakaostyle.pickMyItem.itempcik.resolver
+package kakaostyle.pickMyItem.itempick.resolver
 
 import graphql.kickstart.tools.GraphQLQueryResolver
-import kakaostyle.pickMyItem.board.dto.BoardList
-import kakaostyle.pickMyItem.board.dto.BoardResponse
-import kakaostyle.pickMyItem.itempcik.service.BoardService
+import kakaostyle.pickMyItem.itempick.dto.BoardList
+import kakaostyle.pickMyItem.itempick.dto.BoardResponse
+import kakaostyle.pickMyItem.itempick.service.BoardService
 import org.springframework.stereotype.Component
-import org.springframework.stereotype.Controller
 
 @Component
 class BoardQueryResolver(

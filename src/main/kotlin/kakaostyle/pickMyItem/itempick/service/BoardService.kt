@@ -1,9 +1,9 @@
-package kakaostyle.pickMyItem.itempcik.service
+package kakaostyle.pickMyItem.itempick.service
 
-import kakaostyle.pickMyItem.itempcik.domain.Board
-import kakaostyle.pickMyItem.board.dto.BoardResponse
-import kakaostyle.pickMyItem.board.dto.CreateBoardInput
-import kakaostyle.pickMyItem.itempcik.repository.BoardJpaRepository
+import kakaostyle.pickMyItem.itempick.domain.Board
+import kakaostyle.pickMyItem.itempick.dto.BoardResponse
+import kakaostyle.pickMyItem.itempick.dto.CreateBoardInput
+import kakaostyle.pickMyItem.itempick.repository.BoardJpaRepository
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional

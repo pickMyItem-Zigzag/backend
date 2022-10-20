@@ -1,6 +1,6 @@
-package kakaostyle.pickMyItem.board.dto
+package kakaostyle.pickMyItem.itempick.dto
 
-import kakaostyle.pickMyItem.itempcik.domain.Board
+import kakaostyle.pickMyItem.itempick.domain.Board
 
 data class BoardResponse(
     val id: Long,

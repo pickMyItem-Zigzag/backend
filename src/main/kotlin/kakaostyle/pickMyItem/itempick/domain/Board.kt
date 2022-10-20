@@ -1,4 +1,4 @@
-package kakaostyle.pickMyItem.itempcik.domain
+package kakaostyle.pickMyItem.itempick.domain
 
 import kakaostyle.pickMyItem.base.Base
 import javax.persistence.CascadeType

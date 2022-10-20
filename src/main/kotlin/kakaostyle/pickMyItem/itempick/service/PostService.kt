@@ -1,12 +1,12 @@
-package kakaostyle.pickMyItem.itempcik.service
+package kakaostyle.pickMyItem.itempick.service
 
-import kakaostyle.pickMyItem.itempcik.domain.Board
-import kakaostyle.pickMyItem.itempcik.repository.BoardJpaRepository
-import kakaostyle.pickMyItem.itempcik.domain.Pick
-import kakaostyle.pickMyItem.itempcik.domain.Post
-import kakaostyle.pickMyItem.post.dto.CreatePostInput
-import kakaostyle.pickMyItem.post.dto.PostResponse
-import kakaostyle.pickMyItem.itempcik.repository.PostJpaRepository
+import kakaostyle.pickMyItem.itempick.domain.Board
+import kakaostyle.pickMyItem.itempick.repository.BoardJpaRepository
+import kakaostyle.pickMyItem.itempick.domain.Pick
+import kakaostyle.pickMyItem.itempick.domain.Post
+import kakaostyle.pickMyItem.itempick.dto.CreatePostInput
+import kakaostyle.pickMyItem.itempick.dto.PostResponse
+import kakaostyle.pickMyItem.itempick.repository.PostJpaRepository
 import kakaostyle.pickMyItem.wishitem.dto.ItemInfoInput
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -58,4 +58,24 @@ class PostService(
             )
         )
     }
+
+    fun getPickResult(postId: Long): List<PickResult> {
+        val post = postJpaRepository.findById(postId)
+            .orElseThrow { RuntimeException("해당하는 게시글이 없습니다.") }
+        val totalPickCount = post.getTotalPickCount()
+
+        return post.pickList.map {
+            PickResult(
+                it.id,
+                it.itemId,
+                it.pickCount.toDouble() / totalPickCount
+            )
+        }
+    }
 }
+
+data class PickResult(
+    val pickId: Long,
+    val itemId: Long,
+    val pickResult: Double,
+)
