@@ -22,12 +22,16 @@ class Pick(
 ) : Base() {
 
     companion object {
-        fun from(itemInfoInput: ItemInfoInput): Pick {
+        fun from(
+            itemId: Long,
+            itemName: String,
+            itemImageUrl: String,
+        ): Pick {
             return Pick(
                 pickCount = 0,
-                itemId = itemInfoInput.itemId,
-                itemName = itemInfoInput.itemName,
-                itemImageUrl = itemInfoInput.itemImageUrl
+                itemId = itemId,
+                itemName = itemName,
+                itemImageUrl = itemImageUrl,
             )
         }
     }

@@ -26,6 +26,14 @@ class PostService(
     }
 
     @Transactional(readOnly = true)
+    fun getAllPostList(): List<PostResponse> {
+        return postJpaRepository.findAll()
+            .filter { it.deleted == null }
+            .map { PostResponse.from(it) }
+            .toList()
+    }
+
+    @Transactional(readOnly = true)
     fun getTotalPickCount(postId: Long): Int {
         return postJpaRepository.findById(postId)
             .orElseThrow { RuntimeException("해당하는 게시글이 없습니다.") }
@@ -41,7 +49,11 @@ class PostService(
     }
 
     private fun addPickItemToPost(itemList: List<ItemInfoInput>, post: Post) {
-        itemList.forEach { post.addPick(Pick.from(it)) }
+        itemList.forEach {
+            post.addPick(
+                Pick.from(it.itemId, it.itemName, it.itemImageUrl)
+            )
+        }
     }
 
     private fun savePost(
@@ -49,16 +61,16 @@ class PostService(
         content: String,
         board: Board
     ): Post {
-        return postJpaRepository.save(
-            Post(
-                title = postTitle,
-                content = content,
-                pickList = mutableListOf(),
-                board = board
-            )
+        val post = Post(
+            title = postTitle,
+            content = content,
+            pickList = mutableListOf(),
+            board = board
         )
+        return board.addPost(post)
     }
 
+    @Transactional(readOnly = true)
     fun getPickResult(postId: Long): List<PickResult> {
         val post = postJpaRepository.findById(postId)
             .orElseThrow { RuntimeException("해당하는 게시글이 없습니다.") }
@@ -66,9 +78,9 @@ class PostService(
 
         return post.pickList.map {
             PickResult(
-                it.id,
-                it.itemId,
-                it.pickCount.toDouble() / totalPickCount
+                pickId = it.id,
+                itemId = it.itemId,
+                pickResult = it.pickCount.toDouble() / totalPickCount
             )
         }
     }

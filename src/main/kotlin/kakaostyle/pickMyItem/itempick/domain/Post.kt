@@ -11,22 +11,30 @@ import javax.persistence.Id
 import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
 import javax.persistence.OneToMany
+import org.springframework.transaction.annotation.Transactional
 
 @Entity
 class Post(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) var id: Long = 0L,
     @Column(nullable = false) var title: String,
     @Column(length = 3000) var content: String?,
-    @OneToMany(cascade = [CascadeType.ALL], orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(
+        cascade = [CascadeType.ALL],
+        orphanRemoval = true,
+        fetch = FetchType.LAZY,
+        mappedBy = "post"
+    )
     var pickList: MutableList<Pick> = mutableListOf(),
-    @ManyToOne @JoinColumn(name = "post_id")
-    var board: Board,
+    @ManyToOne @JoinColumn(name = "board_id")
+    var board: Board? = null,
 ) : Base() {
 
+    @Transactional(readOnly = true)
     fun getTotalPickCount(): Int {
         return pickList.sumOf { it.pickCount }
     }
 
+    @Transactional
     fun addPick(pick: Pick) {
         pick.post = this
         this.pickList.add(pick)

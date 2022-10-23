@@ -22,6 +22,11 @@ data class PostResponse (
     }
 }
 
+data class PostList (
+    val totalCount: Int,
+    val itemList: List<PostResponse>
+)
+
 data class CreatePostInput(
     val postTitle: String,
     val content: String?,

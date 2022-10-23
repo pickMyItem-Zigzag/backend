@@ -25,7 +25,7 @@ class BoardService(
     fun getBoardList(): List<BoardResponse> {
         return boardJpaRepository
             .findAll()
-            .filter { it.deleted != null }
+            .filter { it.deleted == null }
             .map { BoardResponse.from(it) }
     }
 

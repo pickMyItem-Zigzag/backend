@@ -9,17 +9,25 @@ import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id
 import javax.persistence.OneToMany
+import org.springframework.transaction.annotation.Transactional
 
 @Entity
 class Board(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) var id: Long = 0L,
     @Column var boardName: String,
-    @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.LAZY, orphanRemoval = false, mappedBy = "board")
+    @OneToMany(
+        cascade = [CascadeType.ALL],
+        fetch = FetchType.LAZY,
+        orphanRemoval = true,
+        mappedBy = "board"
+    )
     val postList: MutableList<Post> = mutableListOf(),
 ) : Base(){
 
-    fun addPost(post: Post) {
+    @Transactional
+    fun addPost(post: Post): Post {
         post.board = this
         this.postList.add(post)
+        return post
     }
 }
