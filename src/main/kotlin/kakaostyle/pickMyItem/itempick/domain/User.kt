@@ -20,7 +20,13 @@ class User(
         fetch = FetchType.LAZY,
         mappedBy = "postingUser"
     )
-    val myPostingList: MutableList<Post> = mutableListOf()
+    val myPostingList: MutableList<Post> = mutableListOf(),
+    @OneToMany(
+        cascade = [CascadeType.ALL],
+        fetch = FetchType.LAZY,
+        mappedBy = "pickingUser"
+    )
+    val myPickedPostList: MutableList<UserPost> = mutableListOf(),
 ) : Base() {
 
     fun addMyPostingList(post: Post) {
@@ -33,5 +39,15 @@ class User(
             post.postingUser = null
             post.deleted = true
         } else throw RuntimeException("본인이 작성한 게시글만 지울 수 있습니다.")
+    }
+
+    fun addPickedPostList(post: Post) {
+        val userPost = UserPost(pickingUser = this, pickedPost = post)
+        userPost.deleted = false
+        myPickedPostList.add(userPost)
+    }
+
+    fun deletePickedPostList(post: Post) {
+        myPickedPostList.first { it.pickingUser == this && it.pickedPost == post }.deleted = true
     }
 }

@@ -1,7 +1,6 @@
 package kakaostyle.pickMyItem.itempick.resolver
 
 import graphql.kickstart.tools.GraphQLQueryResolver
-import kakaostyle.pickMyItem.itempick.dto.PickList
 import kakaostyle.pickMyItem.itempick.dto.PostList
 import kakaostyle.pickMyItem.itempick.dto.UserList
 import kakaostyle.pickMyItem.itempick.dto.UserResponse
@@ -33,9 +32,9 @@ class UserQueryResolver(
         )
     }
 
-    fun getMyPickList(userId: Long): PickList {
-        val myPickList = userService.getMyPickList(userId)
-        return PickList(
+    fun getMyPickedPostList(userId: Long): PostList {
+        val myPickList = userService.getMyPickedPostList(userId)
+        return PostList(
             myPickList.size,
             myPickList
         )

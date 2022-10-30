@@ -12,6 +12,7 @@ import kakaostyle.pickMyItem.itempick.repository.PostJpaRepository
 import kakaostyle.pickMyItem.itempick.repository.UserJpaRepository
 import kakaostyle.pickMyItem.utils.isNullOrFalse
 import kakaostyle.pickMyItem.wishitem.dto.ItemInfoInput
+import kotlin.math.round
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
@@ -63,7 +64,7 @@ class PostService(
 
     private fun addPickItemToPost(itemList: List<ItemInfoInput>, post: Post) {
         itemList.forEach {
-            post.addPick(
+            post.savePick(
                 Pick.from(it.itemId, it.brandName, it.itemName, it.itemImageUrl)
             )
         }
@@ -96,7 +97,7 @@ class PostService(
             PickResult(
                 pickId = it.id,
                 itemId = it.itemId,
-                pickResult = it.pickCount.toDouble() / totalPickCount
+                pickResult = if (totalPickCount == 0) 0.0 else round(it.pickCount.toDouble() / totalPickCount * 100)
             )
         }
     }

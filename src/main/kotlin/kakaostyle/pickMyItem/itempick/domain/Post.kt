@@ -27,7 +27,7 @@ class Post(
     var pickList: MutableList<Pick> = mutableListOf(),
     @ManyToOne @JoinColumn(name = "board_id")
     var board: Board? = null,
-    @ManyToOne @JoinColumn(name = "user_id")
+    @ManyToOne @JoinColumn(name = "posting_user_id")
     var postingUser: User? = null,
 ) : Base() {
 
@@ -37,7 +37,7 @@ class Post(
     }
 
     @Transactional
-    fun addPick(pick: Pick) {
+    fun savePick(pick: Pick) {
         pick.post = this
         this.pickList.add(pick)
     }

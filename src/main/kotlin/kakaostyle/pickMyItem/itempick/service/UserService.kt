@@ -1,9 +1,7 @@
 package kakaostyle.pickMyItem.itempick.service
 
-import kakaostyle.pickMyItem.itempick.dto.PickResponse
 import kakaostyle.pickMyItem.itempick.dto.PostResponse
 import kakaostyle.pickMyItem.itempick.dto.UserResponse
-import kakaostyle.pickMyItem.itempick.repository.PickJpaRepository
 import kakaostyle.pickMyItem.itempick.repository.PostJpaRepository
 import kakaostyle.pickMyItem.itempick.repository.UserJpaRepository
 import kakaostyle.pickMyItem.utils.isNullOrFalse
@@ -14,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional
 class UserService(
     private val userJpaRepository: UserJpaRepository,
     private val postJpaRepository: PostJpaRepository,
-    private val pickJpaRepository: PickJpaRepository,
+    private val userPostService: UserPostService,
 ) {
     @Transactional(readOnly = true)
     fun getAllUserList(): List<UserResponse> {
@@ -39,9 +37,14 @@ class UserService(
     }
 
     @Transactional(readOnly = true)
-    fun getMyPickList(userId: Long): List<PickResponse> {
-        return pickJpaRepository.findAllByUserId(userId)
-            .filter { it.deleted.isNullOrFalse() }
-            .map { PickResponse.from(it) }
+    fun getMyPickedPostList(userId: Long): List<PostResponse> {
+        return userPostService.findAllPickedPostOfUser(userId)
+            .map {
+                PostResponse.from(
+                    postJpaRepository.findPostById(it.postId)
+                        .takeIf { post -> post?.deleted.isNullOrFalse() }
+                        ?: throw RuntimeException("해당하는 게시글이 없습니다.")
+                )
+            }
     }
 }
