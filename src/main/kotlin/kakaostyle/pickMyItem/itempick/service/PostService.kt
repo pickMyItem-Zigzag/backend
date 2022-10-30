@@ -10,6 +10,7 @@ import kakaostyle.pickMyItem.itempick.dto.PostResponse
 import kakaostyle.pickMyItem.itempick.repository.BoardJpaRepository
 import kakaostyle.pickMyItem.itempick.repository.PostJpaRepository
 import kakaostyle.pickMyItem.itempick.repository.UserJpaRepository
+import kakaostyle.pickMyItem.utils.OrderType
 import kakaostyle.pickMyItem.utils.isNullOrFalse
 import kakaostyle.pickMyItem.wishitem.dto.ItemInfoInput
 import kotlin.math.round
@@ -35,9 +36,16 @@ class PostService(
     }
 
     @Transactional(readOnly = true)
-    fun getAllPostList(): List<PostResponse> {
+    fun getAllPostList(orderType: OrderType): List<PostResponse> {
         return postJpaRepository.findAll()
             .filter { it.deleted.isNullOrFalse() }
+            .sortedBy {
+                when (orderType) {
+                    OrderType.MOST_PICK -> -it.getTotalPickCount()
+                    OrderType.MIN_PICK -> it.getTotalPickCount()
+                    else -> 0
+                }
+            }
             .map { PostResponse.from(it) }
             .toList()
     }

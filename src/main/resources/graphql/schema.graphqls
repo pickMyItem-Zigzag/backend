@@ -12,7 +12,7 @@ type Query {
     """ 게시판 조회 """
     getBoard(boardId: ID!): BoardResponse!
     """ 모든 게시글 조회 """
-    getPostList: PostList!
+    getPostList(orderType: OrderType!): PostList!
     """ 게시글 조회 """
     getPost(postId: ID!): PostResponse!
     """ 게시글 총 득표수 조회 """
@@ -126,6 +126,10 @@ type PickResult {
     itemId: ID!
     """ 득표 수 / 총 특표 수 """
     pickResult: Float!
+}
+
+enum OrderType {
+    DEFAULT, MOST_PICK, MIN_PICK
 }
 
 type Mutation {

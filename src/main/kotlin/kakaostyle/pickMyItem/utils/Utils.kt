@@ -7,3 +7,7 @@ fun Boolean?.isNullOrFalse(): Boolean {
 fun Boolean?.isNotNullAndTrue(): Boolean {
     return this != null && this == true
 }
+
+enum class OrderType {
+    DEFAULT, MOST_PICK, MIN_PICK
+}
