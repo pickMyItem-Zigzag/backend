@@ -3,7 +3,7 @@ package kakaostyle.pickMyItem.itempick.dto
 import kakaostyle.pickMyItem.itempick.domain.Post
 import kakaostyle.pickMyItem.wishitem.dto.ItemInfoInput
 
-data class PostResponse (
+data class PostResponse(
     val postId: Long,
     val title: String,
     val content: String?,
@@ -22,7 +22,7 @@ data class PostResponse (
     }
 }
 
-data class PostList (
+data class PostList(
     val totalCount: Int,
     val itemList: List<PostResponse>
 )
@@ -32,4 +32,10 @@ data class CreatePostInput(
     val content: String?,
     val itemInfoInputList: List<ItemInfoInput>,
     val boardId: Long,
+    val userId: Long,
+)
+
+data class DeletePostInput(
+    val userId: Long,
+    val postId: Long,
 )

@@ -22,6 +22,11 @@ data class PickResponse (
     }
 }
 
+data class PickList(
+    val totalCount: Int,
+    val itemList: List<PickResponse>,
+)
+
 data class PickItem(
     val imageUrl: String,
     val itemName: String,

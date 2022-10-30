@@ -1,6 +1,7 @@
 package kakaostyle.pickMyItem.itempick.dto
 
 import kakaostyle.pickMyItem.itempick.domain.Board
+import kakaostyle.pickMyItem.utils.isNullOrFalse
 
 data class BoardResponse(
     val id: Long,
@@ -11,7 +12,7 @@ data class BoardResponse(
         fun from(
             board: Board
         ): BoardResponse {
-            val postIdList = board.postList.map { it.id }
+            val postIdList = board.postList.filter { it.deleted.isNullOrFalse() }.map { it.id }
             return BoardResponse(
                 board.id,
                 boardName = board.boardName,

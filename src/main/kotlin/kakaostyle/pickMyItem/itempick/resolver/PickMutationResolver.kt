@@ -9,13 +9,13 @@ class PickMutationResolver(
     private val pickService: PickService
 ): GraphQLMutationResolver {
 
-    fun pickItem(postId: Long, itemId: Long): Boolean {
-        pickService.pickThisItem(postId, itemId)
+    fun pickThisItem(userId: Long, postId: Long, itemId: Long): Boolean {
+        pickService.pickThisItem(userId, postId, itemId)
         return true
     }
 
-    fun unPickItem(postId: Long, itemId: Long): Boolean {
-        pickService.unPickThisItem(postId, itemId)
+    fun unPickThisItem(userId: Long, postId: Long, itemId: Long): Boolean {
+        pickService.unPickThisItem(userId, postId, itemId)
         return true
     }
 }

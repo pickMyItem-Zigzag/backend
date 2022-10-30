@@ -1,6 +1,5 @@
 package kakaostyle.pickMyItem.itempick.domain
 
-import kakaostyle.pickMyItem.base.Base
 import javax.persistence.CascadeType
 import javax.persistence.Column
 import javax.persistence.Entity
@@ -11,6 +10,7 @@ import javax.persistence.Id
 import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
 import javax.persistence.OneToMany
+import kakaostyle.pickMyItem.base.Base
 import org.springframework.transaction.annotation.Transactional
 
 @Entity
@@ -27,6 +27,8 @@ class Post(
     var pickList: MutableList<Pick> = mutableListOf(),
     @ManyToOne @JoinColumn(name = "board_id")
     var board: Board? = null,
+    @ManyToOne @JoinColumn(name = "user_id")
+    var postingUser: User? = null,
 ) : Base() {
 
     @Transactional(readOnly = true)

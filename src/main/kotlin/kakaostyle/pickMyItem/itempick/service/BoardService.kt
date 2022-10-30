@@ -4,6 +4,7 @@ import kakaostyle.pickMyItem.itempick.domain.Board
 import kakaostyle.pickMyItem.itempick.dto.BoardResponse
 import kakaostyle.pickMyItem.itempick.dto.CreateBoardInput
 import kakaostyle.pickMyItem.itempick.repository.BoardJpaRepository
+import kakaostyle.pickMyItem.utils.isNullOrFalse
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -25,7 +26,7 @@ class BoardService(
     fun getBoardList(): List<BoardResponse> {
         return boardJpaRepository
             .findAll()
-            .filter { it.deleted == null }
+            .filter { it.deleted.isNullOrFalse() }
             .map { BoardResponse.from(it) }
     }
 
