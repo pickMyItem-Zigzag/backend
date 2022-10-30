@@ -35,17 +35,30 @@ type BoardResponse {
 }
 
 type PostResponse {
+    """ 게시글 작성자 """
+    postingUser: UserResponse!
+    """ 게시글 아이디 """
     postId: ID!
+    """ 게시글 제목 """
     title: String!
+    """ 게시글 내용 """
     content: String
+    """ 게시글 내 Pick 목록 """
     pickList: [PickResponse!]!
 }
 
 type PickResponse {
+    """ Pick 아이디 """
     pickId: ID!
+    """ 상품 아이디 """
     itemId: ID!
+    """ 브랜드 이름 """
+    brandName: String!
+    """ 상품명 """
     itemName: String!
+    """ 투표수 """
     pickCount: Int!
+    """ 상품 이미지 URL """
     imageUrl: String!
 }
 
@@ -149,6 +162,8 @@ input CreatePostInput {
 input ItemInfoInput {
     """ 상품 아이디 """
     itemId: ID!
+    """ 브랜드 이름 """
+    brandName: String!
     """ 상품 이름 """
     itemName: String!
     """ 상품 이미지 URL """

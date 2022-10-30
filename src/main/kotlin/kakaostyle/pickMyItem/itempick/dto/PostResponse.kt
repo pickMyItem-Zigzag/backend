@@ -4,6 +4,7 @@ import kakaostyle.pickMyItem.itempick.domain.Post
 import kakaostyle.pickMyItem.wishitem.dto.ItemInfoInput
 
 data class PostResponse(
+    val postingUser: UserResponse,
     val postId: Long,
     val title: String,
     val content: String?,
@@ -11,8 +12,10 @@ data class PostResponse(
 ) {
     companion object {
         fun from(post: Post): PostResponse {
+            val postingUser = UserResponse.from(post.postingUser!!)
             val pickResponseList = post.pickList.map { PickResponse.from(it) }
             return PostResponse(
+                postingUser = postingUser,
                 postId = post.id,
                 title = post.title,
                 content = post.content,

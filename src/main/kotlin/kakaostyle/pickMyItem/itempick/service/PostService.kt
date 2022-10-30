@@ -64,7 +64,7 @@ class PostService(
     private fun addPickItemToPost(itemList: List<ItemInfoInput>, post: Post) {
         itemList.forEach {
             post.addPick(
-                Pick.from(it.itemId, it.itemName, it.itemImageUrl)
+                Pick.from(it.itemId, it.brandName, it.itemName, it.itemImageUrl)
             )
         }
     }

@@ -9,6 +9,7 @@ data class ItemList(
 
 data class ItemInfoInput(
     val itemId: Long,
+    val brandName: String,
     val itemName: String,
     val itemImageUrl: String,
     val originPrice: Int,

@@ -15,6 +15,7 @@ class Pick(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) var id: Long = 0L,
     @Column var pickCount: Int,
     @Column var itemName: String,
+    @Column var brandName: String,
     @Column var itemImageUrl: String?,
     @Column(nullable = false) var itemId: Long = 0L,
     @ManyToOne @JoinColumn(name = "post_id")
@@ -26,12 +27,14 @@ class Pick(
     companion object {
         fun from(
             itemId: Long,
+            brandName: String,
             itemName: String,
             itemImageUrl: String,
         ): Pick {
             return Pick(
                 pickCount = 0,
                 itemId = itemId,
+                brandName = brandName,
                 itemName = itemName,
                 itemImageUrl = itemImageUrl,
             )
