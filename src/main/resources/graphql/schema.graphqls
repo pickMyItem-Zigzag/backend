@@ -96,6 +96,8 @@ type UserResponse {
 type ItemInfoResponse {
     """ 아이템 아이디 """
     itemId: ID!
+    """ 브랜드 이름 """
+    brandName: String!
     """ 상품 이름 """
     itemName: String!
     """ 상품 이미지 URL """

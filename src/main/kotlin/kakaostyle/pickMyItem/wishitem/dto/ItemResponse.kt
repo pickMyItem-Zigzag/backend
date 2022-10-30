@@ -16,6 +16,7 @@ data class ItemInfoInput(
 
 data class ItemInfoResponse(
     val itemId: Long,
+    val brandName: String,
     val itemName: String,
     val itemImageUrl: String,
     val originPrice: Int,
@@ -24,6 +25,7 @@ data class ItemInfoResponse(
         fun from(item: Item): ItemInfoResponse {
             return ItemInfoResponse(
                 item.id,
+                item.brandName,
                 item.itemName,
                 item.itemImageUrl,
                 item.originPrice
