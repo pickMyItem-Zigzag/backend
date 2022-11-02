@@ -1,5 +1,6 @@
 package kakaostyle.pickMyItem.itempick.service
 
+import kakaostyle.pickMyItem.itempick.domain.User
 import kakaostyle.pickMyItem.itempick.dto.PostResponse
 import kakaostyle.pickMyItem.itempick.dto.UserResponse
 import kakaostyle.pickMyItem.itempick.repository.PostJpaRepository
@@ -15,29 +16,31 @@ class UserService(
     private val userPostService: UserPostService,
 ) {
     @Transactional(readOnly = true)
-    fun getAllUserList(): List<UserResponse> {
-        return userJpaRepository.findAll()
-            .filter { it.deleted.isNullOrFalse() }
+    fun getUserBy(userId: Long): User {
+        return userJpaRepository.findUserById(userId).takeIf { it?.deleted.isNullOrFalse() }
+            ?: throw RuntimeException("해당하는 유저가 없습니다.")
+    }
+
+    @Transactional(readOnly = true)
+    fun findUserResponseList(): List<UserResponse> {
+        return userJpaRepository.findAll().filter { it.deleted.isNullOrFalse() }
             .map { UserResponse.from(it) }
     }
 
     @Transactional(readOnly = true)
-    fun getUser(userId: Long): UserResponse {
-        return UserResponse.from(
-            userJpaRepository.findUserById(userId).takeIf { it?.deleted.isNullOrFalse() }
-                ?: throw RuntimeException("해당하는 유저가 없습니다.")
-        )
+    fun findUserResponseBy(userId: Long): UserResponse {
+        return UserResponse.from(getUserBy(userId))
     }
 
     @Transactional(readOnly = true)
-    fun getMyPostList(userId: Long): List<PostResponse> {
+    fun findPostResponseListBy(userId: Long): List<PostResponse> {
         return postJpaRepository.findAllByPostingUserId(userId)
             .filter { it.deleted.isNullOrFalse() }
             .map { PostResponse.from(it) }
     }
 
     @Transactional(readOnly = true)
-    fun getMyPickedPostList(userId: Long): List<PostResponse> {
+    fun findMyPickedPostResponseBy(userId: Long): List<PostResponse> {
         return userPostService.findAllPickedPostOfUser(userId)
             .map {
                 PostResponse.from(

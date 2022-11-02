@@ -11,11 +11,11 @@ class BoardQueryResolver(
     private val boardService: BoardService,
 ) : GraphQLQueryResolver {
     fun getBoard(boardId: Long): BoardResponse {
-        return boardService.getBoard(boardId)
+        return boardService.findBoardResponseById(boardId)
     }
 
     fun getBoardList(): BoardList {
-        val boardList = boardService.getBoardList()
+        val boardList = boardService.findBoardResponseList()
         return BoardList(
             boardList.size,
             boardList

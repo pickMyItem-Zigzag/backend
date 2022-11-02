@@ -12,7 +12,7 @@ type Query {
     """ 게시판 조회 """
     getBoard(boardId: ID!): BoardResponse!
     """ 모든 게시글 조회 """
-    getPostList(orderType: OrderType!): PostList!
+    getPostList(orderType: OrderType!, userId: ID!, page: Int!): PostList!
     """ 게시글 조회 """
     getPost(postId: ID!): PostResponse!
     """ 게시글 총 득표수 조회 """
@@ -37,6 +37,8 @@ type BoardResponse {
 type PostResponse {
     """ 게시글 작성자 """
     postingUser: UserResponse!
+    """ 투표 여부 """
+    picked: Boolean!
     """ 게시글 아이디 """
     postId: ID!
     """ 게시글 제목 """

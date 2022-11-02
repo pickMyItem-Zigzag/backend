@@ -13,11 +13,11 @@ class UserQueryResolver(
 ) : GraphQLQueryResolver {
 
     fun getUser(userId: Long): UserResponse {
-        return userService.getUser(userId)
+        return userService.findUserResponseBy(userId)
     }
 
     fun getUserList(): UserList {
-        val allUserList = userService.getAllUserList()
+        val allUserList = userService.findUserResponseList()
         return UserList(
             allUserList.size,
             allUserList
@@ -25,7 +25,7 @@ class UserQueryResolver(
     }
 
     fun getMyPostList(userId: Long): PostList {
-        val myPostList = userService.getMyPostList(userId)
+        val myPostList = userService.findPostResponseListBy(userId)
         return PostList(
             myPostList.size,
             myPostList
@@ -33,7 +33,7 @@ class UserQueryResolver(
     }
 
     fun getMyPickedPostList(userId: Long): PostList {
-        val myPickList = userService.getMyPickedPostList(userId)
+        val myPickList = userService.findMyPickedPostResponseBy(userId)
         return PostList(
             myPickList.size,
             myPickList

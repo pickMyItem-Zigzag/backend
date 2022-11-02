@@ -14,11 +14,11 @@ class PostQueryResolver(
 ) : GraphQLQueryResolver {
 
     fun getPost(postId: Long): PostResponse {
-        return postService.getPost(postId)
+        return postService.findPostResponseBy(postId)
     }
 
-    fun getPostList(orderType: OrderType): PostList {
-        val allPostList = postService.getAllPostList(orderType)
+    fun getPostList(orderType: OrderType, userId: Long, page: Int): PostList {
+        val allPostList = postService.getAllPostList(orderType, userId, page)
         return PostList(
             allPostList.size,
             allPostList
