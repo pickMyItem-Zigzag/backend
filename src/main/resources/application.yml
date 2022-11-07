@@ -21,9 +21,9 @@ graphql:
   servlet:
     enabled: true
     mapping: /graphql
-    corsEnabled: false
+    corsEnabled: true
     cors:
-      allowed-origins: http://localhost:8080
+      allowed-origins: *
       allowed-methods: GET, HEAD, POST, PATCH
     exception-handlers-enabled: true
     context-setting: PER_REQUEST_WITH_INSTRUMENTATION
