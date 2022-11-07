@@ -23,7 +23,7 @@ graphql:
     mapping: /graphql
     corsEnabled: true
     cors:
-      allowed-origins: *
+      allowed-origins: "*"
       allowed-methods: GET, HEAD, POST, PATCH
     exception-handlers-enabled: true
     context-setting: PER_REQUEST_WITH_INSTRUMENTATION
