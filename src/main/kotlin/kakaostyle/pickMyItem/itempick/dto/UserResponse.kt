@@ -6,13 +6,15 @@ data class UserResponse(
     val userId: Long,
     val username: String,
     val age: Int,
+    val profileImage: String,
 ) {
     companion object {
         fun from(user: User): UserResponse {
             return UserResponse(
                 user.id,
                 user.username,
-                user.age
+                user.age,
+                user.profileImage,
             )
         }
     }

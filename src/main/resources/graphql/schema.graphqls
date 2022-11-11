@@ -106,6 +106,8 @@ type UserResponse {
     username: String!
     """ 유저 나이 """
     age: Int!
+    """ 유저 프로필 """
+    profileImage: String!
 }
 
 type ItemInfoResponse {

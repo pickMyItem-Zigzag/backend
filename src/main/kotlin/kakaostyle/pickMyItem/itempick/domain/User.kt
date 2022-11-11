@@ -15,6 +15,7 @@ class User(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) var id: Long = 0L,
     @Column(nullable = false) var username: String,
     @Column(nullable = false) var age: Int,
+    @Column(nullable = false) var profileImage: String,
     @OneToMany(
         cascade = [CascadeType.ALL],
         fetch = FetchType.LAZY,
