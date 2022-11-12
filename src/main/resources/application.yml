@@ -31,3 +31,6 @@ graphql:
   tools:
     schema-location-pattern: "**/*.graphqls"
     introspection-enabled: true
+
+http.cors.enabled: true
+http.cors.allow-origin: "*"
