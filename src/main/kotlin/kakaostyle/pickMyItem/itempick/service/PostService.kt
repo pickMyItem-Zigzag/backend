@@ -74,7 +74,7 @@ class PostService(
     @Transactional
     fun createPost(input: CreatePostInput) {
         verify(input)
-        val board = boardService.getBoardById(input.boardId)
+        val board = boardService.getBoardBy(input.boardId)
         val user = userService.getUserBy(input.userId)
         val post = savePost(input.postTitle, input.content ?: "", board, user)
         addPickItemToPost(input.itemInfoInputList, post)

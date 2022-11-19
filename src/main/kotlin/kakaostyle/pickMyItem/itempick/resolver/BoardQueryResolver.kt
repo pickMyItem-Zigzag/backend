@@ -11,7 +11,7 @@ class BoardQueryResolver(
     private val boardService: BoardService,
 ) : GraphQLQueryResolver {
     fun getBoard(boardId: Long): BoardResponse {
-        return boardService.findBoardResponseById(boardId)
+        return boardService.findBoardResponseBy(boardId)
     }
 
     fun getBoardList(): BoardList {

@@ -16,13 +16,13 @@ class BoardService(
     private val logger = LoggerFactory.getLogger(this::class.simpleName)
 
     @Transactional(readOnly = true)
-    fun getBoardById(boardId: Long): Board {
+    fun getBoardBy(boardId: Long): Board {
         return boardJpaRepository.findBoardById(boardId).takeIf { it?.deleted.isNullOrFalse() }
             ?: throw RuntimeException("해당하는 게시판이 없습니다.")
     }
 
     @Transactional(readOnly = true)
-    fun findBoardResponseById(boardId: Long): BoardResponse {
+    fun findBoardResponseBy(boardId: Long): BoardResponse {
         val board = boardJpaRepository
             .findBoardById(boardId) ?: throw RuntimeException("해당하는 게시판이 없습니다.")
         return BoardResponse.from(board)
