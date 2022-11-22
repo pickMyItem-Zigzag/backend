@@ -14,9 +14,6 @@ import org.springframework.transaction.annotation.Transactional
 class Pick(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) var id: Long = 0L,
     @Column var pickCount: Int,
-    @Column var itemName: String,
-    @Column var brandName: String,
-    @Column var itemImageUrl: String?,
     @Column(nullable = false) var itemId: Long = 0L,
     @ManyToOne @JoinColumn(name = "post_id")
     var post: Post? = null,
@@ -25,16 +22,10 @@ class Pick(
     companion object {
         fun from(
             itemId: Long,
-            brandName: String,
-            itemName: String,
-            itemImageUrl: String,
         ): Pick {
             return Pick(
                 pickCount = 0,
-                itemId = itemId,
-                brandName = brandName,
-                itemName = itemName,
-                itemImageUrl = itemImageUrl,
+                itemId = itemId
             )
         }
     }
@@ -42,7 +33,7 @@ class Pick(
     @Transactional
     fun pickThis(user: User, post: Post) {
         synchronized(this) {
-            user.addPickedPostList(post)
+            user.addPickedPostList(post, this.itemId)
             ++this.pickCount
         }
     }

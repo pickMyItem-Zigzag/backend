@@ -42,8 +42,8 @@ class User(
         } else throw RuntimeException("본인이 작성한 게시글만 지울 수 있습니다.")
     }
 
-    fun addPickedPostList(post: Post) {
-        val userPost = UserPost(pickingUser = this, pickedPost = post)
+    fun addPickedPostList(post: Post, itemId: Long) {
+        val userPost = UserPost(pickingUser = this, pickedPost = post, itemId = itemId)
         userPost.deleted = false
         myPickedPostList.add(userPost)
     }

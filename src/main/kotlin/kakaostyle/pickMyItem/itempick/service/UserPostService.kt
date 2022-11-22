@@ -2,6 +2,7 @@ package kakaostyle.pickMyItem.itempick.service
 
 import kakaostyle.pickMyItem.itempick.dto.UserPostResponse
 import kakaostyle.pickMyItem.itempick.repository.UserPostJpaRepository
+import kakaostyle.pickMyItem.utils.isNullOrFalse
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -19,5 +20,13 @@ class UserPostService(
     fun findAllPickedPostOfUser(userId: Long): List<UserPostResponse> {
         return userPostJpaRepository.findAllByPickingUserId(userId)
             .map { UserPostResponse.from(it) }
+    }
+
+    @Transactional(readOnly = true)
+    fun findUserPost(userId: Long, postId: Long): UserPostResponse? {
+        val userPost = userPostJpaRepository.findUserPostByPickingUserIdAndPickedPostId(userId, postId)
+            .takeIf { it?.deleted.isNullOrFalse() } ?: return null
+
+        return UserPostResponse.from(userPost)
     }
 }

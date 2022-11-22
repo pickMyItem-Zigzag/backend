@@ -1,5 +1,6 @@
 package kakaostyle.pickMyItem.itempick.domain
 
+import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
@@ -15,4 +16,5 @@ class UserPost(
     var pickingUser: User? = null,
     @ManyToOne @JoinColumn(name = "picked_post_id")
     var pickedPost: Post? = null,
+    @Column val itemId: Long,
 ) : Base()

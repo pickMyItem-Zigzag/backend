@@ -37,8 +37,8 @@ type BoardResponse {
 type PostResponse {
     """ 게시글 작성자 """
     postingUser: UserResponse!
-    """ 투표 여부 """
-    picked: Boolean!
+    """ 유저 투표 상품 아이디 """
+    pickedItemId: ID
     """ 게시글 아이디 """
     postId: ID!
     """ 게시글 제목 """
@@ -47,6 +47,8 @@ type PostResponse {
     content: String
     """ 게시글 내 Pick 목록 """
     pickList: [PickResponse!]!
+    """ 총 투표수 """
+    totalPickCount: Int!
 }
 
 type PickResponse {
@@ -54,14 +56,8 @@ type PickResponse {
     pickId: ID!
     """ 상품 아이디 """
     itemId: ID!
-    """ 브랜드 이름 """
-    brandName: String!
-    """ 상품명 """
-    itemName: String!
     """ 투표수 """
     pickCount: Int!
-    """ 상품 이미지 URL """
-    imageUrl: String!
 }
 
 type BoardList {
@@ -159,8 +155,8 @@ input CreatePostInput {
     postTitle: String!
     """ 게시글 내용 """
     content: String
-    """ 투표할 pick 상품 목록 """
-    itemInfoInputList: [ItemInfoInput!]!
+    """ 투표할 pick 상품 아이디 목록 """
+    itemIdList: [ID!]!
     """ 게시할 게시판 아이디 """
     boardId: ID!
     """ 유저 아이디 """

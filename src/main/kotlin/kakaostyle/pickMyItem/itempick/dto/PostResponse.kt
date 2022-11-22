@@ -1,27 +1,29 @@
 package kakaostyle.pickMyItem.itempick.dto
 
 import kakaostyle.pickMyItem.itempick.domain.Post
-import kakaostyle.pickMyItem.wishitem.dto.ItemInfoInput
 
 data class PostResponse(
     val postingUser: UserResponse,
-    val picked: Boolean,
+    val pickedItemId: Long?,
     val postId: Long,
     val title: String,
     val content: String?,
-    val pickList: List<PickResponse>
+    val pickList: List<PickResponse>,
+    val totalPickCount: Int,
 ) {
     companion object {
-        fun from(post: Post, picked: Boolean = false): PostResponse {
+        fun from(post: Post, pickedItemId: Long?): PostResponse {
             val postingUser = UserResponse.from(post.postingUser!!)
             val pickResponseList = post.pickList.map { PickResponse.from(it) }
+            val totalPickCount = post.getTotalPickCount()
             return PostResponse(
                 postingUser = postingUser,
-                picked = picked,
+                pickedItemId = pickedItemId,
                 postId = post.id,
                 title = post.title,
                 content = post.content,
-                pickList = pickResponseList
+                pickList = pickResponseList,
+                totalPickCount = totalPickCount,
             )
         }
     }
@@ -35,7 +37,7 @@ data class PostList(
 data class CreatePostInput(
     val postTitle: String,
     val content: String?,
-    val itemInfoInputList: List<ItemInfoInput>,
+    val itemIdList: List<Long>,
     val boardId: Long,
     val userId: Long,
 )

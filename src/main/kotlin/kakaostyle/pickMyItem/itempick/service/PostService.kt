@@ -10,7 +10,6 @@ import kakaostyle.pickMyItem.itempick.dto.PostResponse
 import kakaostyle.pickMyItem.itempick.repository.PostJpaRepository
 import kakaostyle.pickMyItem.utils.OrderType
 import kakaostyle.pickMyItem.utils.isNullOrFalse
-import kakaostyle.pickMyItem.wishitem.dto.ItemInfoInput
 import kotlin.math.round
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -23,6 +22,7 @@ class PostService(
     private val postJpaRepository: PostJpaRepository,
     private val boardService: BoardService,
     private val userService: UserService,
+    private val userPostService: UserPostService,
 ) {
     val logger: Logger = LoggerFactory.getLogger(this::class.simpleName)
 
@@ -40,7 +40,8 @@ class PostService(
     fun findPostResponseBy(postId: Long): PostResponse {
         return PostResponse.from(
             postJpaRepository.findPostById(postId).takeIf { it?.deleted.isNullOrFalse() }
-                ?: throw RuntimeException("해당하는 게시글이 없습니다.")
+                ?: throw RuntimeException("해당하는 게시글이 없습니다."),
+            null
         )
     }
 
@@ -58,7 +59,13 @@ class PostService(
                     else -> 0
                 }
             }
-            .map { PostResponse.from(it, pickedPostIdList.contains(it.id)) }
+            .map {
+                val userPost = userPostService.findUserPost(userId, it.id)
+                PostResponse.from(
+                    post = it,
+                    pickedItemId = userPost?.itemId
+                )
+            }
     }
 
     private fun getPickedPostIdList(user: User): List<Long> {
@@ -77,23 +84,19 @@ class PostService(
         val board = boardService.getBoardBy(input.boardId)
         val user = userService.getUserBy(input.userId)
         val post = savePost(input.postTitle, input.content ?: "", board, user)
-        addPickItemToPost(input.itemInfoInputList, post)
+        addPickItemToPost(input.itemIdList, post)
         logger.info("POST 생성완료: $post.id, ${post.title}, ${post.content}")
     }
 
     private fun verify(input: CreatePostInput) {
         if (input.postTitle.length < 5 || input.postTitle.length > 30) throw RuntimeException("5자 이상 30자 이하로 제목을 작성해주세요.")
         if (input.content != null && input.content.length >= 100) throw RuntimeException("100자 이하로 본문을 작성해주세요.")
-        if (input.itemInfoInputList.size < 2) throw RuntimeException("투표 생성을 위해 2개 이상의 상품을 등록해주세요.")
-        if (input.itemInfoInputList.size > 4) throw RuntimeException("투표는 최대 4개의 상품까지 등록할 수 있습니다.")
+        if (input.itemIdList.size < 2) throw RuntimeException("투표 생성을 위해 2개 이상의 상품을 등록해주세요.")
+        if (input.itemIdList.size > 4) throw RuntimeException("투표는 최대 4개의 상품까지 등록할 수 있습니다.")
     }
 
-    private fun addPickItemToPost(itemList: List<ItemInfoInput>, post: Post) {
-        itemList.forEach {
-            post.savePick(
-                Pick.from(it.itemId, it.brandName, it.itemName, it.itemImageUrl)
-            )
-        }
+    private fun addPickItemToPost(itemList: List<Long>, post: Post) {
+        itemList.forEach { post.savePick(Pick.from(it)) }
     }
 
     private fun savePost(
