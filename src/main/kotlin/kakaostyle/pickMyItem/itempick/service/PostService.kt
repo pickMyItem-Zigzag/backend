@@ -85,7 +85,7 @@ class PostService(
         if (input.postTitle.length <= 5 || input.postTitle.length >= 30) throw RuntimeException("5자 이상 30자 이하로 제목을 작성해주세요.")
         if (input.content != null && input.content.length >= 100) throw RuntimeException("100자 이하로 본문을 작성해주세요.")
         if (input.itemInfoInputList.size < 2) throw RuntimeException("투표 생성을 위해 2개 이상의 상품을 등록해주세요.")
-        if (input.itemInfoInputList.size > 6) throw RuntimeException("투표는 최대 6개의 상품까지 등록할 수 있습니다.")
+        if (input.itemInfoInputList.size > 4) throw RuntimeException("투표는 최대 4개의 상품까지 등록할 수 있습니다.")
     }
 
     private fun addPickItemToPost(itemList: List<ItemInfoInput>, post: Post) {
