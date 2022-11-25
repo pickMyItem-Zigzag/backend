@@ -47,15 +47,13 @@ class PostService(
 
     @Transactional(readOnly = true)
     fun getAllPostList(orderType: OrderType, userId: Long, page: Int = 0): List<PostResponse> {
-        val user = userService.getUserBy(userId)
-        val pickedPostIdList = getPickedPostIdList(user)
-
         return postJpaRepository.findAll(PageRequest.of(page, PAGE_SIZE))
             .filter { it.deleted.isNullOrFalse() }
             .sortedBy {
                 when (orderType) {
                     OrderType.MOST_PICK -> -it.getTotalPickCount()
                     OrderType.MIN_PICK -> it.getTotalPickCount()
+                    OrderType.DEFAULT -> -it.id.toInt()
                     else -> 0
                 }
             }
