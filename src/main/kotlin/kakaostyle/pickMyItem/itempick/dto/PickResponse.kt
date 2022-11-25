@@ -28,3 +28,10 @@ data class PickItem(
     val itemName: String,
     val itemPrice: Int,
 )
+
+data class PickResult(
+    val pickId: Long,
+    val itemId: Long,
+    val pickCount: Int,
+    val pickResult: Double,
+)

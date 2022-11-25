@@ -6,6 +6,9 @@ import kakaostyle.pickMyItem.itempick.domain.Post
 import kakaostyle.pickMyItem.itempick.domain.User
 import kakaostyle.pickMyItem.itempick.dto.CreatePostInput
 import kakaostyle.pickMyItem.itempick.dto.DeletePostInput
+import kakaostyle.pickMyItem.itempick.dto.PickResult
+import kakaostyle.pickMyItem.itempick.dto.PostPickResult
+import kakaostyle.pickMyItem.itempick.dto.PostPickResultList
 import kakaostyle.pickMyItem.itempick.dto.PostResponse
 import kakaostyle.pickMyItem.itempick.repository.PostJpaRepository
 import kakaostyle.pickMyItem.utils.OrderType
@@ -47,23 +50,22 @@ class PostService(
 
     @Transactional(readOnly = true)
     fun getAllPostList(orderType: OrderType, userId: Long, page: Int = 0): List<PostResponse> {
-        return postJpaRepository.findAll(PageRequest.of(page, PAGE_SIZE))
-            .filter { it.deleted.isNullOrFalse() }
-            .sortedBy {
-                when (orderType) {
-                    OrderType.MOST_PICK -> -it.getTotalPickCount()
-                    OrderType.MIN_PICK -> it.getTotalPickCount()
-                    OrderType.DEFAULT -> -it.id.toInt()
-                    else -> 0
-                }
-            }
-            .map {
-                val userPost = userPostService.findUserPost(userId, it.id)
-                PostResponse.from(
-                    post = it,
-                    pickedItemId = userPost?.itemId
+        return when (orderType) {
+            OrderType.DEFAULT ->
+                postJpaRepository.findAllByDeletedNullOrDeletedFalseOrderByIdDesc(PageRequest.of(page, PAGE_SIZE))
+            OrderType.MOST_PICK ->
+                postJpaRepository.findAllByDeletedNullOrDeletedFalseOrderByTotalPickCount(
+                    PageRequest.of(page, PAGE_SIZE)
                 )
-            }
+            else ->
+                postJpaRepository.findAllByDeletedNullOrDeletedFalseOrderByIdDesc(PageRequest.of(page, PAGE_SIZE))
+        }.map {
+            val userPost = userPostService.findUserPost(userId, it.id)
+            PostResponse.from(
+                post = it,
+                pickedItemId = userPost?.itemId
+            )
+        }
     }
 
     private fun getPickedPostIdList(user: User): List<Long> {
@@ -123,9 +125,23 @@ class PostService(
             PickResult(
                 pickId = it.id,
                 itemId = it.itemId,
+                pickCount = it.pickCount,
                 pickResult = if (totalPickCount == 0) 0.0 else round(it.pickCount.toDouble() / totalPickCount * 100)
             )
         }
+    }
+
+    @Transactional(readOnly = true)
+    fun getPickResultByPostIdList(postIdList: List<Long>): PostPickResultList {
+        val postPickResultList = mutableListOf<PostPickResult>()
+        for (postId in postIdList) {
+            val pickResultList = getPickResult(postId)
+            postPickResultList.add(PostPickResult(postId, pickResultList))
+        }
+        return PostPickResultList(
+            postPickResultList.size,
+            postPickResultList
+        )
     }
 
     @Transactional
@@ -135,9 +151,3 @@ class PostService(
         user.deleteMyPosting(post)
     }
 }
-
-data class PickResult(
-    val pickId: Long,
-    val itemId: Long,
-    val pickResult: Double,
-)

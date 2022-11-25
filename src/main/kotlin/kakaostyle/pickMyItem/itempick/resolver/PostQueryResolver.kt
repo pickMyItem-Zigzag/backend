@@ -1,9 +1,10 @@
 package kakaostyle.pickMyItem.itempick.resolver
 
 import graphql.kickstart.tools.GraphQLQueryResolver
+import kakaostyle.pickMyItem.itempick.dto.PickResult
 import kakaostyle.pickMyItem.itempick.dto.PostList
+import kakaostyle.pickMyItem.itempick.dto.PostPickResultList
 import kakaostyle.pickMyItem.itempick.dto.PostResponse
-import kakaostyle.pickMyItem.itempick.service.PickResult
 import kakaostyle.pickMyItem.itempick.service.PostService
 import kakaostyle.pickMyItem.utils.OrderType
 import org.springframework.stereotype.Component
@@ -31,5 +32,9 @@ class PostQueryResolver(
 
     fun getPickResult(postId: Long): List<PickResult> {
         return postService.getPickResult(postId)
+    }
+
+    fun getPickResultByPostIdList(postIdList: List<Long>): PostPickResultList {
+        return postService.getPickResultByPostIdList(postIdList)
     }
 }

@@ -46,3 +46,13 @@ data class DeletePostInput(
     val userId: Long,
     val postId: Long,
 )
+
+data class PostPickResult(
+    val postId: Long,
+    val pickResultList: List<PickResult>,
+)
+
+data class PostPickResultList(
+    val totalCount: Int,
+    val itemList: List<PostPickResult>,
+)
