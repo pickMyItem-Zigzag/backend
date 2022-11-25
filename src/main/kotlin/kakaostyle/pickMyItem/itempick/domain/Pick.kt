@@ -35,6 +35,7 @@ class Pick(
         synchronized(this) {
             user.addPickedPostList(post, this.itemId)
             ++this.pickCount
+            ++post.pickCount
         }
     }
 
@@ -44,6 +45,7 @@ class Pick(
             if (this.pickCount > 0) {
                 user.deletePickedPostList(post)
                 --this.pickCount
+                --post.pickCount
             } else throw RuntimeException("각 pick은 0 미만의 특표수를 가질 수 없습니다.")
         }
     }

@@ -9,7 +9,7 @@ interface PostJpaRepository : JpaRepository<Post, Long> {
     fun findPostById(postId: Long): Post?
     fun findAllByPostingUserId(userId: Long): List<Post>
 
-    fun findAllByDeletedNullOrDeletedFalseOrderByIdDesc(pageable: Pageable): List<Post>
+    fun findAllByDeletedNullOrDeletedFalse(pageable: Pageable): List<Post>
 
     fun findAllByDeletedNullOrDeletedFalseOrderByTotalPickCount(pageable: Pageable): List<Post>
 }

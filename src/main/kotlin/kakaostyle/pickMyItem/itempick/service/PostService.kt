@@ -17,6 +17,7 @@ import kotlin.math.round
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -52,13 +53,25 @@ class PostService(
     fun getAllPostList(orderType: OrderType, userId: Long, page: Int = 0): List<PostResponse> {
         return when (orderType) {
             OrderType.DEFAULT ->
-                postJpaRepository.findAllByDeletedNullOrDeletedFalseOrderByIdDesc(PageRequest.of(page, PAGE_SIZE))
+                postJpaRepository.findAllByDeletedNullOrDeletedFalse(
+                    PageRequest.of(
+                        page,
+                        PAGE_SIZE,
+                        Sort.by(Sort.Direction.DESC, "id")
+                    )
+                )
             OrderType.MOST_PICK ->
-                postJpaRepository.findAllByDeletedNullOrDeletedFalseOrderByTotalPickCount(
-                    PageRequest.of(page, PAGE_SIZE)
+                postJpaRepository.findAllByDeletedNullOrDeletedFalse(
+                    PageRequest.of(page, PAGE_SIZE, Sort.by(Sort.Direction.DESC, "pickCount"))
                 )
             else ->
-                postJpaRepository.findAllByDeletedNullOrDeletedFalseOrderByIdDesc(PageRequest.of(page, PAGE_SIZE))
+                postJpaRepository.findAllByDeletedNullOrDeletedFalse(
+                    PageRequest.of(
+                        page,
+                        PAGE_SIZE,
+                        Sort.by(Sort.Direction.DESC, "id")
+                    )
+                )
         }.map {
             val userPost = userPostService.findUserPost(userId, it.id)
             PostResponse.from(

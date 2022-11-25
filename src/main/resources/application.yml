@@ -13,6 +13,8 @@ spring:
       hibernate.show_sql: true
       hibernate.format_sql: true
       dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+      hibernate:
+        default_batch_fetch_size: 100
   graphql:
     graphiql:
       enabled: true

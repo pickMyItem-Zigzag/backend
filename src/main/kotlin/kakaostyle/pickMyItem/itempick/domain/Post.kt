@@ -29,6 +29,7 @@ class Post(
     var board: Board? = null,
     @ManyToOne @JoinColumn(name = "posting_user_id")
     var postingUser: User? = null,
+    @Column(nullable = false) var pickCount: Int = 0,
 ) : Base() {
 
     @Transactional(readOnly = true)
